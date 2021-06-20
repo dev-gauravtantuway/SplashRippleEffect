@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:ui';
-import 'package:fluttertoast/fluttertoast.dart';
 
-void main() async {
+void main() {
   runApp(
     MaterialApp(
       home: HomePage(),
-      title: "Animated-Login-Page-UI",
+      title: "Ripple-Effect-Animation",
     ),
   );
   SystemChrome.setSystemUIOverlayStyle(
@@ -25,286 +24,155 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  AnimationController controller1;
-  AnimationController controller2;
-  Animation<double> animation1;
-  Animation<double> animation2;
-  Animation<double> animation3;
-  Animation<double> animation4;
+  AnimationController firstRippleController;
+  AnimationController secondRippleController;
+  AnimationController thirdRippleController;
+  AnimationController centerCircleController;
+  Animation<double> firstRippleRadiusAnimation;
+  Animation<double> firstRippleOpacityAnimation;
+  Animation<double> firstRippleWidthAnimation;
+  Animation<double> secondRippleRadiusAnimation;
+  Animation<double> secondRippleOpacityAnimation;
+  Animation<double> secondRippleWidthAnimation;
+  Animation<double> thirdRippleRadiusAnimation;
+  Animation<double> thirdRippleOpacityAnimation;
+  Animation<double> thirdRippleWidthAnimation;
+  Animation<double> centerCircleRadiusAnimation;
 
   @override
   void initState() {
     super.initState();
-
-    controller1 = AnimationController(
+    firstRippleController = AnimationController(
       vsync: this,
       duration: Duration(
-        seconds: 5,
+        seconds: 2,
       ),
     );
-    animation1 = Tween<double>(begin: .1, end: .15).animate(
-      CurvedAnimation(
-        parent: controller1,
-        curve: Curves.easeInOut,
-      ),
-    )
+    firstRippleRadiusAnimation = Tween<double>(begin: 0, end: 150).animate(
+        CurvedAnimation(parent: firstRippleController, curve: Curves.ease))
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          controller1.reverse();
+          firstRippleController.repeat();
         } else if (status == AnimationStatus.dismissed) {
-          controller1.forward();
+          firstRippleController.forward();
         }
       });
-    animation2 = Tween<double>(begin: .02, end: .04).animate(
-      CurvedAnimation(
-        parent: controller1,
-        curve: Curves.easeInOut,
-      ),
-    )..addListener(() {
+    firstRippleOpacityAnimation = Tween<double>(begin: 1, end: 0).animate(
+        CurvedAnimation(parent: firstRippleController, curve: Curves.ease))
+      ..addListener(() {
         setState(() {});
       });
-
-    controller2 = AnimationController(
+    firstRippleWidthAnimation = Tween<double>(begin: 10, end: 0).animate(
+        CurvedAnimation(parent: firstRippleController, curve: Curves.ease))
+      ..addListener(() {
+        setState(() {});
+      });
+    secondRippleController = AnimationController(
       vsync: this,
       duration: Duration(
-        seconds: 5,
+        seconds: 2,
       ),
     );
-    animation3 = Tween<double>(begin: .41, end: .38).animate(CurvedAnimation(
-      parent: controller2,
-      curve: Curves.easeInOut,
-    ))
+    secondRippleRadiusAnimation = Tween<double>(begin: 0, end: 150).animate(
+        CurvedAnimation(parent: secondRippleController, curve: Curves.ease))
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          controller2.reverse();
+          secondRippleController.repeat();
         } else if (status == AnimationStatus.dismissed) {
-          controller2.forward();
+          secondRippleController.forward();
         }
       });
-    animation4 = Tween<double>(begin: 170, end: 190).animate(
-      CurvedAnimation(
-        parent: controller2,
-        curve: Curves.easeInOut,
-      ),
-    )..addListener(() {
+    secondRippleOpacityAnimation = Tween<double>(begin: 1, end: 0).animate(
+        CurvedAnimation(parent: secondRippleController, curve: Curves.ease))
+      ..addListener(() {
         setState(() {});
       });
-
-    Timer(Duration(milliseconds: 2500), () {
-      controller1.forward();
-    });
-
-    controller2.forward();
+    secondRippleWidthAnimation = Tween<double>(begin: 10, end: 0).animate(
+        CurvedAnimation(parent: secondRippleController, curve: Curves.ease))
+      ..addListener(() {
+        setState(() {});
+      });
+    thirdRippleController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        seconds: 2,
+      ),
+    );
+    thirdRippleRadiusAnimation = Tween<double>(begin: 0, end: 150).animate(
+        CurvedAnimation(parent: thirdRippleController, curve: Curves.ease))
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          thirdRippleController.repeat();
+        } else if (status == AnimationStatus.dismissed) {
+          thirdRippleController.forward();
+        }
+      });
+    thirdRippleOpacityAnimation = Tween<double>(begin: 1, end: 0).animate(
+        CurvedAnimation(parent: thirdRippleController, curve: Curves.ease))
+      ..addListener(() {
+        setState(() {});
+      });
+    thirdRippleWidthAnimation = Tween<double>(begin: 10, end: 0).animate(
+        CurvedAnimation(parent: thirdRippleController, curve: Curves.ease))
+      ..addListener(() {
+        setState(() {});
+      });
+    centerCircleController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    centerCircleRadiusAnimation = Tween<double>(begin: 35, end: 50).animate(
+        CurvedAnimation(
+            parent: centerCircleController, curve: Curves.fastOutSlowIn))
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          centerCircleController.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          centerCircleController.forward();
+        }
+      });
+    firstRippleController.forward();
+    Timer(Duration(milliseconds: 800), () => secondRippleController.forward());
+    Timer(Duration(milliseconds: 1050), () => thirdRippleController.forward());
+    centerCircleController.forward();
   }
 
   @override
   void dispose() {
-    controller1.dispose();
-    controller2.dispose();
+    firstRippleController.dispose();
+    secondRippleController.dispose();
+    thirdRippleController.dispose();
+    centerCircleController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xff192028),
-      body: ScrollConfiguration(
-        behavior: MyBehavior(),
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: size.height,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: size.height * (animation2.value + .58),
-                  left: size.width * .21,
-                  child: CustomPaint(
-                    painter: MyPainter(50),
-                  ),
-                ),
-                Positioned(
-                  top: size.height * .98,
-                  left: size.width * .1,
-                  child: CustomPaint(
-                    painter: MyPainter(animation4.value - 30),
-                  ),
-                ),
-                Positioned(
-                  top: size.height * .5,
-                  left: size.width * (animation2.value + .8),
-                  child: CustomPaint(
-                    painter: MyPainter(30),
-                  ),
-                ),
-                Positioned(
-                  top: size.height * animation3.value,
-                  left: size.width * (animation1.value + .1),
-                  child: CustomPaint(
-                    painter: MyPainter(60),
-                  ),
-                ),
-                Positioned(
-                  top: size.height * .1,
-                  left: size.width * .8,
-                  child: CustomPaint(
-                    painter: MyPainter(animation4.value),
-                  ),
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: size.height * .1),
-                        child: Text(
-                          'APP NAME',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(.7),
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                            wordSpacing: 4,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 7,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          component1(Icons.account_circle_outlined,
-                              'User name...', false, false),
-                          component1(
-                              Icons.email_outlined, 'Email...', false, true),
-                          component1(
-                              Icons.lock_outline, 'Password...', true, false),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              component2(
-                                'LOGIN',
-                                2.58,
-                                () {
-                                  HapticFeedback.lightImpact();
-                                  Fluttertoast.showToast(
-                                      msg: 'Login button pressed');
-                                },
-                              ),
-                              SizedBox(width: size.width / 20),
-                              component2(
-                                'Forgotten password!',
-                                2.58,
-                                () {
-                                  HapticFeedback.lightImpact();
-                                  Fluttertoast.showToast(
-                                      msg: 'Forgotten password button pressed');
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          component2(
-                            'Create a new Account',
-                            2,
-                            () {
-                              HapticFeedback.lightImpact();
-                              Fluttertoast.showToast(
-                                  msg: 'Create a new account button pressed');
-                            },
-                          ),
-                          SizedBox(height: size.height * .05),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget component1(
-      IconData icon, String hintText, bool isPassword, bool isEmail) {
-    Size size = MediaQuery.of(context).size;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(15),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaY: 15,
-          sigmaX: 15,
-        ),
-        child: Container(
-          height: size.width / 8,
-          width: size.width / 1.2,
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(right: size.width / 30),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.05),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: TextField(
-            style: TextStyle(color: Colors.white.withOpacity(.8)),
-            cursorColor: Colors.white,
-            obscureText: isPassword,
-            keyboardType:
-                isEmail ? TextInputType.emailAddress : TextInputType.text,
-            decoration: InputDecoration(
-              prefixIcon: Icon(
-                icon,
-                color: Colors.white.withOpacity(.7),
-              ),
-              border: InputBorder.none,
-              hintMaxLines: 1,
-              hintText: hintText,
-              hintStyle:
-                  TextStyle(fontSize: 14, color: Colors.white.withOpacity(.5)),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget component2(String string, double width, VoidCallback voidCallback) {
-    Size size = MediaQuery.of(context).size;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(15),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaY: 15, sigmaX: 15),
-        child: InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: voidCallback,
-          child: Container(
-            height: size.width / 8,
-            width: size.width / width,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.05),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Text(
-              string,
-              style: TextStyle(color: Colors.white.withOpacity(.8)),
-            ),
+      backgroundColor: Color(0xff312B47),
+      body: Center(
+        child: CustomPaint(
+          painter: MyPainter(
+            firstRippleRadiusAnimation.value,
+            firstRippleOpacityAnimation.value,
+            firstRippleWidthAnimation.value,
+            secondRippleRadiusAnimation.value,
+            secondRippleOpacityAnimation.value,
+            secondRippleWidthAnimation.value,
+            thirdRippleRadiusAnimation.value,
+            thirdRippleOpacityAnimation.value,
+            thirdRippleWidthAnimation.value,
+            centerCircleRadiusAnimation.value,
           ),
         ),
       ),
@@ -313,35 +181,63 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 }
 
 class MyPainter extends CustomPainter {
-  final double radius;
+  final double _firstRippleRadius;
+  final double _firstRippleOpacity;
+  final double _firstRippleStrokeWidth;
+  final double _secondRippleRadius;
+  final double _secondRippleOpacity;
+  final double _secondRippleStrokeWidth;
+  final double _thirdRippleRadius;
+  final double _thirdRippleOpacity;
+  final double _thirdRippleStrokeWidth;
+  final double _centerCircleRadius;
 
-  MyPainter(this.radius);
+  MyPainter(
+      this._firstRippleRadius,
+      this._firstRippleOpacity,
+      this._firstRippleStrokeWidth,
+      this._secondRippleRadius,
+      this._secondRippleOpacity,
+      this._secondRippleStrokeWidth,
+      this._thirdRippleRadius,
+      this._thirdRippleOpacity,
+      this._thirdRippleStrokeWidth,
+      this._centerCircleRadius);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..shader = LinearGradient(
-              colors: [Color(0xffFD5E3D), Color(0xffC43990)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight)
-          .createShader(Rect.fromCircle(
-        center: Offset(0, 0),
-        radius: radius,
-      ));
+    Color myColor = Color(0xff653FF4);
 
-    canvas.drawCircle(Offset.zero, radius, paint);
+    Paint firstPaint = Paint();
+    firstPaint.color = myColor.withOpacity(_firstRippleOpacity);
+    firstPaint.style = PaintingStyle.stroke;
+    firstPaint.strokeWidth = _firstRippleStrokeWidth;
+
+    canvas.drawCircle(Offset.zero, _firstRippleRadius, firstPaint);
+
+    Paint secondPaint = Paint();
+    secondPaint.color = myColor.withOpacity(_secondRippleOpacity);
+    secondPaint.style = PaintingStyle.stroke;
+    secondPaint.strokeWidth = _secondRippleStrokeWidth;
+
+    canvas.drawCircle(Offset.zero, _secondRippleRadius, secondPaint);
+
+    Paint thirdPaint = Paint();
+    thirdPaint.color = myColor.withOpacity(_thirdRippleOpacity);
+    thirdPaint.style = PaintingStyle.stroke;
+    thirdPaint.strokeWidth = _thirdRippleStrokeWidth;
+
+    canvas.drawCircle(Offset.zero, _thirdRippleRadius, thirdPaint);
+
+    Paint fourthPaint = Paint();
+    fourthPaint.color = myColor;
+    fourthPaint.style = PaintingStyle.fill;
+
+    canvas.drawCircle(Offset.zero, _centerCircleRadius, fourthPaint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
-  }
-}
-
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
-    return child;
   }
 }
