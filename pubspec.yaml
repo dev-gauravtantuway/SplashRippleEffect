@@ -14,7 +14,6 @@ dependencies:
 
 
   cupertino_icons:
-  fluttertoast:
 
 
 dev_dependencies:
